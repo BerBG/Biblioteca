@@ -1,10 +1,12 @@
 # Biblioteca 📚
 
-> Projeto full-stack de uma biblioteca desenvolvido com ASP.NET Core (.NET 9) no backend e tecnologia à escolha no frontend.
+> Projeto full-stack de uma biblioteca desenvolvido com ASP.NET Core (.NET 9) no backend e Vue 3 + Nuxt 3 + Vuetify no frontend.
+
+## 📌 Sobre
 
 Este repositório contém o projeto completo da aplicação **Biblioteca**, dividido em duas partes principais:
 - **Backend**: API RESTful feita com **ASP.NET Core Minimal APIs** e **OpenAPI**
-- **Frontend**: Aplicação web (em desenvolvimento)
+- **Frontend**: Aplicação web construída com **Vue 3**, **Nuxt 3** e estilizada com **Vuetify** (atualmente em desenvolvimento)
 
 ---
 
@@ -40,15 +42,20 @@ Biblioteca/
 ```bash
 git clone https://github.com/BerBG/Biblioteca.git 
 cd Biblioteca
+```bash
 
 2. Acesse a pasta da API
 
+```bash
 cd Back/api
+```bash
 
 3. Restaure as dependências e rode a API
 
+```bash
 dotnet restore
 dotnet run
+```bash
 
 4. Acesse a API localmente
 
