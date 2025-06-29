@@ -40,15 +40,20 @@ Biblioteca/
 ```bash
 git clone https://github.com/BerBG/Biblioteca.git 
 cd Biblioteca
+```bash
 
 2. Acesse a pasta da API
 
+```bash
 cd Back/api
+```bash
 
 3. Restaure as dependências e rode a API
 
+```bash
 dotnet restore
 dotnet run
+```bash
 
 4. Acesse a API localmente
 
