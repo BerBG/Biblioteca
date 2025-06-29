@@ -1,0 +1,22 @@
+# Binários e pastas geradas pelo build
+bin/
+obj/
+
+# Configurações do VS Code
+.vscode/
+*.code-workspace
+
+# Configurações do Visual Studio (se usar)
+*.suo
+*.user
+*.userosscache
+
+# Arquivos temporários do sistema
+Thumbs.db
+.DS_Store
+
+# Logs e debugging
+*.log
+*.pdb
+*.ilk
+*.tmp
