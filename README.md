@@ -1,6 +1,6 @@
 # Biblioteca 📚
 
-> Projeto full-stack de uma biblioteca desenvolvido com ASP.NET Core (.NET 9) no backend e tecnologia à escolha no frontend.
+> Projeto full-stack de uma biblioteca desenvolvido com ASP.NET Core (.NET 9) no backend e Vue 3 + Nuxt 3 + Vuetify no frontend.
 
 ## 📌 Sobre
 
