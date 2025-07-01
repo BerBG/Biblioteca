@@ -16,7 +16,6 @@ namespace api.Models
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; } = null!;
 
-        public ICollection<Livro> Livros { get; set; } = new List<Livro>();
         public ICollection<ColecaoLivro> ColecoesLivros { get; set; } = new List<ColecaoLivro>();
     }
 }
