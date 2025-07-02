@@ -1,12 +1,12 @@
 # Biblioteca 📚
 
-> Projeto full-stack de uma biblioteca desenvolvido com ASP.NET Core (.NET 9) no backend e Vue 3 + Nuxt 3 + Vuetify no frontend.
+> Projeto full-stack de uma biblioteca desenvolvido com ASP.NET Core no backend e Vue 3 + Vuetify no frontend.
 
 ## 📌 Sobre
 
 Este repositório contém o projeto completo da aplicação **Biblioteca**, dividido em duas partes principais:
 - **Backend**: API RESTful feita com **ASP.NET Core Minimal APIs** e **OpenAPI**
-- **Frontend**: Aplicação web construída com **Vue 3**, **Nuxt 3** e estilizada com **Vuetify** (atualmente em desenvolvimento)
+- **Frontend**: Aplicação web construída com **Vue 3** e estilizada com **Vuetify** (atualmente em desenvolvimento)
 
 ---
 
@@ -14,8 +14,8 @@ Este repositório contém o projeto completo da aplicação **Biblioteca**, divi
 
 Biblioteca/
 ├── Back/ # Backend da aplicação
-│ └── api/ # API Web .NET 9
-├── Front/ # Frontend (a ser implementado)
+│ └── api/ # API (sendo implementado)
+├── Front/ # Frontend (a ser implementado posteriormente)
 └── .gitignore # Arquivo de configuração do Git
 
 
