@@ -1,0 +1,25 @@
+using api.Models;
+using api.Dtos.Livro;
+
+public static class LivroMapper
+{
+    public static LivroDto ToLivroDto(this Livro livroModel)
+    {
+        return new LivroDto
+        {
+            Id = livroModel.Id,
+            Titulo = livroModel.Titulo,
+            ISBN = livroModel.ISBN,
+            Descricao = livroModel.Descricao,
+            CapaUrl = livroModel.CapaUrl,
+            Paginas = livroModel.Paginas,
+            Disponivel = livroModel.Disponivel,
+            AnoPublicacao = livroModel.AnoPublicacao,
+            DataCadastro = livroModel.DataCadastro,
+            AutorId = livroModel.AutorId,
+            AutorNome = livroModel.Autor.Nome,
+            GeneroId = livroModel.GeneroId,
+            GeneroNome = livroModel.Genero.Nome
+        };
+    }
+}
