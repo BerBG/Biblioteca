@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using api.Dtos.Livro;
 
 namespace api.Controllers
 {
@@ -45,6 +46,21 @@ namespace api.Controllers
             }
 
             return Ok(LivroMapper.ToLivroDto(livro));
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateLivroRequestDto livroDto)
+        {
+            var livro = livroDto.ToLivroFromCreateDTO();
+            _context.Livros.Add(livro);
+            _context.SaveChanges();
+
+            var livroCompleto = _context.Livros
+                .Include(l => l.Autor)
+                .Include(l => l.Genero)
+                .FirstOrDefault(l => l.Id == livro.Id);
+
+            return Ok(LivroMapper.ToLivroDto(livroCompleto));
         }
     }
 }

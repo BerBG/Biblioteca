@@ -22,4 +22,20 @@ public static class LivroMapper
             GeneroNome = livroModel.Genero.Nome
         };
     }
+
+    public static Livro ToLivroFromCreateDTO(this CreateLivroRequestDto livroDto)
+    {
+        return new Livro
+        {
+            Titulo = livroDto.Titulo,
+            ISBN = livroDto.ISBN,
+            Descricao = livroDto.Descricao,
+            CapaUrl = livroDto.CapaUrl,
+            Paginas = livroDto.Paginas,
+            Disponivel = true,
+            AnoPublicacao = livroDto.AnoPublicacao,
+            AutorId = livroDto.AutorId,
+            GeneroId = livroDto.GeneroId
+        };
+    }
 }
