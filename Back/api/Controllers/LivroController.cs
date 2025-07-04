@@ -60,6 +60,46 @@ namespace api.Controllers
                 .Include(l => l.Genero)
                 .FirstOrDefault(l => l.Id == livro.Id);
 
+            if (livroCompleto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(LivroMapper.ToLivroDto(livroCompleto));
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateLivroRequestDto updateDto)
+        {
+            var livroModel = _context.Livros.FirstOrDefault(x => x.Id == id);
+
+            if (livroModel == null)
+            {
+                return NotFound();
+            }
+
+            livroModel.Titulo = updateDto.Titulo;
+            livroModel.ISBN = updateDto.ISBN;
+            livroModel.Descricao = updateDto.Descricao;
+            livroModel.CapaUrl = updateDto.CapaUrl;
+            livroModel.Paginas = updateDto.Paginas;
+            livroModel.AnoPublicacao = updateDto.AnoPublicacao;
+            livroModel.AutorId = updateDto.AutorId;
+            livroModel.GeneroId = updateDto.GeneroId;
+
+            _context.SaveChanges();
+
+            var livroCompleto = _context.Livros
+               .Include(l => l.Autor)
+               .Include(l => l.Genero)
+               .FirstOrDefault(l => l.Id == livroModel.Id);
+
+            if (livroCompleto == null)
+            {
+                return NotFound();
+            }
+
             return Ok(LivroMapper.ToLivroDto(livroCompleto));
         }
     }
