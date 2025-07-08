@@ -102,5 +102,23 @@ namespace api.Controllers
 
             return Ok(LivroMapper.ToLivroDto(livroCompleto));
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var livroModel = _context.Livros.FirstOrDefault(x => x.Id == id);
+
+            if (livroModel == null)
+            {
+                return NotFound();
+            }
+
+            _context.Livros.Remove(livroModel);
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
