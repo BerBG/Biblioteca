@@ -20,59 +20,61 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var livros = _context.Livros
+            var livros = await _context.Livros
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
-                .ToList()
-                .Select(LivroMapper.ToLivroDto)
-                .ToList();
+                .ToListAsync();
 
-            return Ok(livros);
+            var livrosDto = livros.Select(l => l.ToLivroDto()).ToList();
+
+            return Ok(livrosDto);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var livro = _context.Livros
+            var livro = await _context.Livros
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
-                .FirstOrDefault(l => l.Id == id);
+                .FirstOrDefaultAsync(l => l.Id == id);
 
             if (livro == null)
             {
                 return NotFound();
             }
 
-            return Ok(LivroMapper.ToLivroDto(livro));
+            return Ok(livro.ToLivroDto());
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateLivroRequestDto livroDto)
+        public async Task<IActionResult> Create([FromBody] CreateLivroRequestDto livroDto)
         {
-            var livro = livroDto.ToLivroFromCreateDTO();
-            _context.Livros.Add(livro);
-            _context.SaveChanges();
+            var livroModel = livroDto.ToLivroFromCreateDTO();
+            await _context.Livros.AddAsync(livroModel);
+            await _context.SaveChangesAsync();
 
-            var livroCompleto = _context.Livros
+            var livroCompleto = await _context.Livros
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
-                .FirstOrDefault(l => l.Id == livro.Id);
+                .FirstOrDefaultAsync(l => l.Id == livroModel.Id);
 
             if (livroCompleto == null)
             {
                 return NotFound();
             }
 
-            return Ok(LivroMapper.ToLivroDto(livroCompleto));
+            var livroDtoResult = LivroMapper.ToLivroDto(livroCompleto);
+
+            return CreatedAtAction(nameof(GetById), new { id = livroModel.Id }, livroDtoResult);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateLivroRequestDto updateDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateLivroRequestDto updateDto)
         {
-            var livroModel = _context.Livros.FirstOrDefault(x => x.Id == id);
+            var livroModel = await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
 
             if (livroModel == null)
             {
@@ -88,12 +90,12 @@ namespace api.Controllers
             livroModel.AutorId = updateDto.AutorId;
             livroModel.GeneroId = updateDto.GeneroId;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            var livroCompleto = _context.Livros
+            var livroCompleto = await _context.Livros
                .Include(l => l.Autor)
                .Include(l => l.Genero)
-               .FirstOrDefault(l => l.Id == livroModel.Id);
+               .FirstOrDefaultAsync(l => l.Id == livroModel.Id);
 
             if (livroCompleto == null)
             {
@@ -105,9 +107,9 @@ namespace api.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var livroModel = _context.Livros.FirstOrDefault(x => x.Id == id);
+            var livroModel = await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
 
             if (livroModel == null)
             {
@@ -116,7 +118,7 @@ namespace api.Controllers
 
             _context.Livros.Remove(livroModel);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
