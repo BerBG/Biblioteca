@@ -6,6 +6,7 @@ using api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Dtos.Livro;
+using api.Interfaces;
 
 namespace api.Controllers
 {
@@ -14,20 +15,19 @@ namespace api.Controllers
     public class LivroController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public LivroController(ApplicationDBContext context)
+        private readonly ILivroRepository _livroRepo;
+        public LivroController(ApplicationDBContext context, ILivroRepository livroRepo)
         {
+            _livroRepo = livroRepo;
             _context = context;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var livros = await _context.Livros
-                .Include(l => l.Autor)
-                .Include(l => l.Genero)
-                .ToListAsync();
+            var livros = await _livroRepo.GetAllAsync();
 
-            var livrosDto = livros.Select(l => l.ToLivroDto()).ToList();
+            var livrosDto = livros.Select(l => l.ToLivroDto());
 
             return Ok(livrosDto);
         }
