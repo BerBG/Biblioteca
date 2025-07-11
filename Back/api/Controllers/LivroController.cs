@@ -35,10 +35,7 @@ namespace api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var livro = await _context.Livros
-                .Include(l => l.Autor)
-                .Include(l => l.Genero)
-                .FirstOrDefaultAsync(l => l.Id == id);
+            var livro = await _livroRepo.GetByIdAsync(id);
 
             if (livro == null)
             {
@@ -52,73 +49,40 @@ namespace api.Controllers
         public async Task<IActionResult> Create([FromBody] CreateLivroRequestDto livroDto)
         {
             var livroModel = livroDto.ToLivroFromCreateDTO();
-            await _context.Livros.AddAsync(livroModel);
-            await _context.SaveChangesAsync();
-
-            var livroCompleto = await _context.Livros
-                .Include(l => l.Autor)
-                .Include(l => l.Genero)
-                .FirstOrDefaultAsync(l => l.Id == livroModel.Id);
+            var livroCompleto = await _livroRepo.CreateAsync(livroModel);
 
             if (livroCompleto == null)
             {
                 return NotFound();
             }
 
-            var livroDtoResult = LivroMapper.ToLivroDto(livroCompleto);
-
-            return CreatedAtAction(nameof(GetById), new { id = livroModel.Id }, livroDtoResult);
+            return CreatedAtAction(nameof(GetById), new { id = livroCompleto.Id }, livroCompleto.ToLivroDto());
         }
 
         [HttpPut]
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateLivroRequestDto updateDto)
         {
-            var livroModel = await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
+            var livroModel = await _livroRepo.UpdateAsync(id, updateDto);
 
             if (livroModel == null)
             {
                 return NotFound();
             }
 
-            livroModel.Titulo = updateDto.Titulo;
-            livroModel.ISBN = updateDto.ISBN;
-            livroModel.Descricao = updateDto.Descricao;
-            livroModel.CapaUrl = updateDto.CapaUrl;
-            livroModel.Paginas = updateDto.Paginas;
-            livroModel.AnoPublicacao = updateDto.AnoPublicacao;
-            livroModel.AutorId = updateDto.AutorId;
-            livroModel.GeneroId = updateDto.GeneroId;
-
-            await _context.SaveChangesAsync();
-
-            var livroCompleto = await _context.Livros
-               .Include(l => l.Autor)
-               .Include(l => l.Genero)
-               .FirstOrDefaultAsync(l => l.Id == livroModel.Id);
-
-            if (livroCompleto == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(LivroMapper.ToLivroDto(livroCompleto));
+            return Ok(livroModel.ToLivroDto());
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var livroModel = await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
+            var livroModel = await _livroRepo.DeleteAsync(id);
 
             if (livroModel == null)
             {
                 return NotFound();
             }
-
-            _context.Livros.Remove(livroModel);
-
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
