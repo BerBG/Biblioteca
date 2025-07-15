@@ -1,5 +1,6 @@
 using api.Models;
 using api.Dtos.Livro;
+using api.Mappers;
 
 public static class LivroMapper
 {
@@ -19,7 +20,8 @@ public static class LivroMapper
             AutorId = livroModel.AutorId,
             AutorNome = livroModel.Autor.Nome,
             GeneroId = livroModel.GeneroId,
-            GeneroNome = livroModel.Genero.Nome
+            GeneroNome = livroModel.Genero.Nome,
+            Comentarios = livroModel.Comentarios.Select(c => c.ToComentarioDto()).ToList()
         };
     }
 

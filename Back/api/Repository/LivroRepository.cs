@@ -30,25 +30,12 @@ namespace api.Repository
                 .FirstOrDefaultAsync(l => l.Id == livroModel.Id);
         }
 
-        public async Task<Livro?> DeleteAsync(int id)
-        {
-            var livroModel = await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (livroModel == null)
-            {
-                return null;
-            }
-
-            _context.Livros.Remove(livroModel);
-            await _context.SaveChangesAsync();
-            return livroModel;
-        }
-
         public async Task<List<Livro>> GetAllAsync()
         {
             return await _context.Livros
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
+                .Include(l => l.Comentarios)
                 .ToListAsync();
         }
 
@@ -57,6 +44,7 @@ namespace api.Repository
             return await _context.Livros
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
+                .Include(l => l.Comentarios)
                 .FirstOrDefaultAsync(l => l.Id == id);
         }
 
@@ -84,6 +72,20 @@ namespace api.Repository
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
                 .FirstOrDefaultAsync(l => l.Id == id);
+        }
+
+        public async Task<Livro?> DeleteAsync(int id)
+        {
+            var livroModel = await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (livroModel == null)
+            {
+                return null;
+            }
+
+            _context.Livros.Remove(livroModel);
+            await _context.SaveChangesAsync();
+            return livroModel;
         }
     }
 }

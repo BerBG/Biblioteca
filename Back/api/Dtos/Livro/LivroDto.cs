@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Dtos.Comentario;
 
 namespace api.Dtos.Livro
 {
@@ -20,5 +21,6 @@ namespace api.Dtos.Livro
         public string AutorNome { get; set; } = string.Empty;
         public int GeneroId { get; set; }
         public string GeneroNome { get; set; } = string.Empty;
+        public List<ComentarioDto> Comentarios { get; set; }
     }
 }
