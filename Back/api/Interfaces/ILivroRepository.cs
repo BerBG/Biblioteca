@@ -11,8 +11,9 @@ namespace api.Interfaces
     {
         Task<List<Livro>> GetAllAsync();
         Task<Livro?> GetByIdAsync(int id);
-        Task<Livro?> CreateAsync(Livro livroModel);
+        Task<Livro> CreateAsync(Livro livroModel);
         Task<Livro?> UpdateAsync(int id, UpdateLivroRequestDto livroDto);
         Task<Livro?> DeleteAsync(int id);
+        Task<bool> LivroExists(int id);
     }
 }

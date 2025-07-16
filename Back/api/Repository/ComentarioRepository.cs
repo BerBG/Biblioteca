@@ -18,9 +18,9 @@ namespace api.Repository
             _context = context;
         }
 
-        public async Task<Comentario?> CreateAsync(Comentario comentarioModel)
+        public async Task<Comentario> CreateAsync(Comentario comentarioModel)
         {
-            _context.Comentarios.Add(comentarioModel);
+            await _context.Comentarios.AddAsync(comentarioModel);
             await _context.SaveChangesAsync();
             return comentarioModel;
         }

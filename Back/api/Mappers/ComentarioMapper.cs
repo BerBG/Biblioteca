@@ -22,5 +22,15 @@ namespace api.Mappers
                 UsuarioNome = comentarioModel.Usuario?.Nome ?? string.Empty
             };
         }
+
+        public static Comentario ToComentarioFromCreate(this CreateComentarioDto comentarioDto, int livroId)
+        {
+            return new Comentario
+            {
+                Texto = comentarioDto.Texto,
+                LivroId = livroId,
+                UsuarioId = comentarioDto.UsuarioId
+            };
+        }
     }
 }

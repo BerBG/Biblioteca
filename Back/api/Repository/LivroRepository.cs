@@ -19,7 +19,7 @@ namespace api.Repository
             _context = context;
         }
 
-        public async Task<Livro?> CreateAsync(Livro livroModel)
+        public async Task<Livro> CreateAsync(Livro livroModel)
         {
             await _context.Livros.AddAsync(livroModel);
             await _context.SaveChangesAsync();
@@ -27,7 +27,7 @@ namespace api.Repository
             return await _context.Livros
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
-                .FirstOrDefaultAsync(l => l.Id == livroModel.Id);
+                .FirstAsync(l => l.Id == livroModel.Id);
         }
 
         public async Task<List<Livro>> GetAllAsync()
@@ -86,6 +86,11 @@ namespace api.Repository
             _context.Livros.Remove(livroModel);
             await _context.SaveChangesAsync();
             return livroModel;
+        }
+
+        public Task<bool> LivroExists(int id)
+        {
+            return _context.Livros.AnyAsync(l => l.Id == id);
         }
     }
 }

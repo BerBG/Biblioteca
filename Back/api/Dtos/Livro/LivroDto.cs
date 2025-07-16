@@ -21,6 +21,6 @@ namespace api.Dtos.Livro
         public string AutorNome { get; set; } = string.Empty;
         public int GeneroId { get; set; }
         public string GeneroNome { get; set; } = string.Empty;
-        public List<ComentarioDto> Comentarios { get; set; }
+        public List<ComentarioDto> Comentarios { get; set; } = new();
     }
 }
