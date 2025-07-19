@@ -60,5 +60,19 @@ namespace api.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = comentarioModel.Id }, comentarioModel.ToComentarioDto());
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateComentarioRequestDto updateDto)
+        {
+            var comentario = await _comentarioRepo.UpdateAsync(id, updateDto.ToComentarioFromUpdate());
+
+            if (comentario == null)
+            {
+                return NotFound("Comentário não encontrado.");
+            }
+
+            return Ok(comentario.ToComentarioDto());
+        }
     }
 }

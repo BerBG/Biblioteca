@@ -28,8 +28,16 @@ namespace api.Mappers
             return new Comentario
             {
                 Texto = comentarioDto.Texto,
-                LivroId = livroId,
-                UsuarioId = comentarioDto.UsuarioId
+                UsuarioId = comentarioDto.UsuarioId,
+                LivroId = livroId
+            };
+        }
+
+        public static Comentario ToComentarioFromUpdate(this UpdateComentarioRequestDto comentarioDto)
+        {
+            return new Comentario
+            {
+                Texto = comentarioDto.Texto
             };
         }
     }

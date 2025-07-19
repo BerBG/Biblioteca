@@ -41,10 +41,14 @@ namespace api.Repository
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<Comentario?> UpdateAsync(int id, UpdateComentarioRequestDto comentarioModel)
+        public async Task<Comentario?> UpdateAsync(int id, Comentario comentarioModel)
         {
             var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario == null) return null;
+            
+            if (comentario == null)
+            {
+                return null;
+            }
 
             comentario.Texto = comentarioModel.Texto;
             comentario.Data = DateTime.UtcNow;
@@ -52,7 +56,7 @@ namespace api.Repository
             await _context.SaveChangesAsync();
             return comentario;
         }
-        
+
         public async Task<Comentario?> DeleteAsync(int id)
         {
             var comentario = await _context.Comentarios.FindAsync(id);
@@ -62,7 +66,5 @@ namespace api.Repository
             await _context.SaveChangesAsync();
             return comentario;
         }
-
-
     }
 }
