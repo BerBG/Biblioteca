@@ -60,10 +60,15 @@ namespace api.Repository
         public async Task<Comentario?> DeleteAsync(int id)
         {
             var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario == null) return null;
+
+            if (comentario == null)
+            {
+                return null;
+            }
 
             _context.Comentarios.Remove(comentario);
             await _context.SaveChangesAsync();
+            
             return comentario;
         }
     }
