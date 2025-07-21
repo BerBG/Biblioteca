@@ -34,7 +34,7 @@ namespace api.Controllers
             return Ok(comentarioDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var comentario = await _comentarioRepo.GetByIdAsync(id);
@@ -47,7 +47,7 @@ namespace api.Controllers
             return Ok(comentario.ToComentarioDto());
         }
 
-        [HttpPost("{livroId}")]
+        [HttpPost("{livroId:int}")]
         public async Task<IActionResult> Create([FromRoute] int livroId, CreateComentarioDto comentarioDto)
         {
             if (!await _livroRepo.LivroExists(livroId))
@@ -62,7 +62,7 @@ namespace api.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateComentarioRequestDto updateDto)
         {
             var comentario = await _comentarioRepo.UpdateAsync(id, updateDto.ToComentarioFromUpdate());
@@ -76,7 +76,7 @@ namespace api.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var comentario = await _comentarioRepo.DeleteAsync(id);

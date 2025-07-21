@@ -32,7 +32,7 @@ namespace api.Controllers
             return Ok(livrosDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var livro = await _livroRepo.GetByIdAsync(id);
@@ -60,7 +60,7 @@ namespace api.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateLivroRequestDto updateDto)
         {
             var livroModel = await _livroRepo.UpdateAsync(id, updateDto);
@@ -74,7 +74,7 @@ namespace api.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var livroModel = await _livroRepo.DeleteAsync(id);
