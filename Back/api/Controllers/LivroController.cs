@@ -25,6 +25,11 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var livros = await _livroRepo.GetAllAsync();
 
             var livrosDto = livros.Select(l => l.ToLivroDto());
@@ -35,6 +40,11 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var livro = await _livroRepo.GetByIdAsync(id);
 
             if (livro == null)
@@ -48,6 +58,11 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateLivroRequestDto livroDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var livroModel = livroDto.ToLivroFromCreateDTO();
             var livroCompleto = await _livroRepo.CreateAsync(livroModel);
 
@@ -63,6 +78,11 @@ namespace api.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateLivroRequestDto updateDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var livroModel = await _livroRepo.UpdateAsync(id, updateDto);
 
             if (livroModel == null)
@@ -76,7 +96,12 @@ namespace api.Controllers
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
-        {
+        {   
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var livroModel = await _livroRepo.DeleteAsync(id);
 
             if (livroModel == null)

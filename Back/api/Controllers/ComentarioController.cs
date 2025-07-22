@@ -25,6 +25,11 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var comentarios = await _comentarioRepo.GetAllAsync();
 
             var comentarioDto = comentarios
@@ -37,6 +42,11 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var comentario = await _comentarioRepo.GetByIdAsync(id);
 
             if (comentario == null)
@@ -50,6 +60,11 @@ namespace api.Controllers
         [HttpPost("{livroId:int}")]
         public async Task<IActionResult> Create([FromRoute] int livroId, CreateComentarioDto comentarioDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (!await _livroRepo.LivroExists(livroId))
             {
                 return BadRequest("Livro não encontrado.");
@@ -65,6 +80,11 @@ namespace api.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateComentarioRequestDto updateDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var comentario = await _comentarioRepo.UpdateAsync(id, updateDto.ToComentarioFromUpdate());
 
             if (comentario == null)
@@ -79,6 +99,11 @@ namespace api.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var comentario = await _comentarioRepo.DeleteAsync(id);
 
             if (comentario == null)
