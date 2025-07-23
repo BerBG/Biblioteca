@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Livro;
+using api.Helpers;
 using api.Models;
 
 namespace api.Interfaces
 {
     public interface ILivroRepository
     {
-        Task<List<Livro>> GetAllAsync();
+        Task<List<Livro>> GetAllAsync(QueryObject query);
         Task<Livro?> GetByIdAsync(int id);
         Task<Livro> CreateAsync(Livro livroModel);
         Task<Livro?> UpdateAsync(int id, UpdateLivroRequestDto livroDto);

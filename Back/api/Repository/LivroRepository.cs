@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Livro;
+using api.Helpers;
 using api.Interfaces;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -30,13 +31,41 @@ namespace api.Repository
                 .FirstAsync(l => l.Id == livroModel.Id);
         }
 
-        public async Task<List<Livro>> GetAllAsync()
+        public async Task<List<Livro>> GetAllAsync(QueryObject query)
         {
-            return await _context.Livros
+            var livros = _context.Livros
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
                 .Include(l => l.Comentarios)
-                .ToListAsync();
+                .AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(query.Titulo))
+            {
+                livros = livros.Where(l => l.Titulo.Contains(query.Titulo));
+            }
+
+            if(query.AutorId.HasValue)
+            {
+                livros = livros.Where(l => l.AutorId == query.AutorId.Value);
+            }
+
+            if(query.GeneroId.HasValue)
+            {
+                livros = livros.Where(l => l.GeneroId == query.GeneroId.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Titulo", StringComparison.OrdinalIgnoreCase))
+                    livros = query.IsDescending ? livros.OrderByDescending(l => l.Titulo) : livros.OrderBy(l => l.Titulo);
+                else if (query.SortBy.Equals("AnoPublicacao", StringComparison.OrdinalIgnoreCase))
+                    livros = query.IsDescending ? livros.OrderByDescending(l => l.AnoPublicacao) : livros.OrderBy(l => l.AnoPublicacao);
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.PageSize;
+            livros = livros.Skip(skipNumber).Take(query.PageSize);
+
+            return await livros.ToListAsync();
         }
 
         public async Task<Livro?> GetByIdAsync(int id)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Dtos.Livro;
 using api.Interfaces;
+using api.Helpers;
 
 namespace api.Controllers
 {
@@ -23,14 +24,14 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            var livros = await _livroRepo.GetAllAsync();
+            var livros = await _livroRepo.GetAllAsync(query);
 
             var livrosDto = livros.Select(l => l.ToLivroDto());
 
