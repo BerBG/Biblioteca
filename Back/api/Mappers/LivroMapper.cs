@@ -32,7 +32,6 @@ public static class LivroMapper
             Titulo = livroDto.Titulo,
             ISBN = livroDto.ISBN,
             Descricao = livroDto.Descricao,
-            CapaUrl = livroDto.CapaUrl,
             Paginas = livroDto.Paginas,
             Disponivel = true,
             AnoPublicacao = livroDto.AnoPublicacao,

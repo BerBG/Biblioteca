@@ -56,7 +56,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateLivroRequestDto livroDto)
+        public async Task<IActionResult> Create([FromForm] CreateLivroRequestDto livroDto)
         {
             if (!ModelState.IsValid)
             {
@@ -64,6 +64,24 @@ namespace api.Controllers
             }
 
             var livroModel = livroDto.ToLivroFromCreateDTO();
+
+            if (livroDto.CapaImagem != null)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagens");
+                Directory.CreateDirectory(uploadsFolder);
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + livroDto.CapaImagem.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await livroDto.CapaImagem.CopyToAsync(fileStream);
+                }
+
+                // Preenche a URL da capa no model
+                livroModel.CapaUrl = "/imagens/" + uniqueFileName;
+            }
+
             var livroCompleto = await _livroRepo.CreateAsync(livroModel);
 
             if (livroCompleto == null)

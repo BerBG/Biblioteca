@@ -60,7 +60,6 @@ namespace api.Repository
             existingLivro.Titulo = livroDto.Titulo;
             existingLivro.ISBN = livroDto.ISBN;
             existingLivro.Descricao = livroDto.Descricao;
-            existingLivro.CapaUrl = livroDto.CapaUrl;
             existingLivro.Paginas = livroDto.Paginas;
             existingLivro.AnoPublicacao = livroDto.AnoPublicacao;
             existingLivro.AutorId = livroDto.AutorId;

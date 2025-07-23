@@ -20,3 +20,6 @@ Thumbs.db
 *.pdb
 *.ilk
 *.tmp
+
+# Imagens de upload dos livros
+wwwroot/imagens/
