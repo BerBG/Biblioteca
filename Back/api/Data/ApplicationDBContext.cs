@@ -25,12 +25,28 @@ namespace api.Data
         public DbSet<ColecaoLivro> ColecoesLivros { get; set; }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<ColecaoLivro>(b =>
+            base.OnModelCreating(builder);
+            
+            builder.Entity<IdentityRole<int>>().HasData(
+                new IdentityRole<int>
+                {
+                    Id = 1,
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                },
+                new IdentityRole<int>
+                {
+                    Id = 2,
+                    Name = "User",
+                    NormalizedName = "USER",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                }
+            );
+            
+            builder.Entity<ColecaoLivro>(b =>
             {
                 b.HasKey(cl => new { cl.ColecaoId, cl.LivroId });
 
