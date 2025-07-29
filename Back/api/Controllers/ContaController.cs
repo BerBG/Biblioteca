@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Conta;
+using api.Interfaces;
 using api.Models;
+using api.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +17,11 @@ namespace api.Controllers
     public class ContaController : ControllerBase
     {
         private readonly UserManager<Usuario> _userManager;
-        public ContaController(UserManager<Usuario> userManager)
+        private readonly ITokenService _tokenService;
+        public ContaController(UserManager<Usuario> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("cadastro")]
@@ -44,7 +48,14 @@ namespace api.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(usuario, "User");
                     if (roleResult.Succeeded)
                     {
-                        return Ok("Usuário cadastrado com sucesso!");
+                        return Ok(
+                            new NewUsuarioDto
+                            {
+                                UserName = usuario.UserName,
+                                Email = usuario.Email,
+                                Token = _tokenService.CreateToken(usuario)
+                            }
+                        );
                     }
                     else
                     {
