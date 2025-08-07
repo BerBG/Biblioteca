@@ -36,8 +36,7 @@ namespace api.Controllers
 
                 var usuario = new Usuario
                 {
-                    UserName = cadastroDto.Email,
-                    Nome = cadastroDto.NomeUsuario,
+                    UserName = cadastroDto.NomeUsuario,
                     Email = cadastroDto.Email
                 };
 
@@ -49,7 +48,7 @@ namespace api.Controllers
                     if (roleResult.Succeeded)
                     {
                         return Ok(
-                            new NewUsuarioDto
+                            new NovoUsuarioDto
                             {
                                 UserName = usuario.UserName,
                                 Email = usuario.Email,

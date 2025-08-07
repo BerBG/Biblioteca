@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace api.Dtos.Conta
 {
-    public class NewUsuarioDto
+    public class NovoUsuarioDto
     {
         public string UserName { get; set; }
         public string Email { get; set; }
