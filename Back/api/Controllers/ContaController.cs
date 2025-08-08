@@ -8,6 +8,7 @@ using api.Models;
 using api.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace api.Controllers
@@ -69,6 +70,22 @@ namespace api.Controllers
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var usuario = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.NomeUsuario.ToLower());
+
+            if (usuario == null)
+            {
+                return Unauthorized("Usuário não encontrado.");
             }
         }
     }
