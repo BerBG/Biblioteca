@@ -19,10 +19,13 @@ namespace api.Controllers
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly ITokenService _tokenService;
-        public ContaController(UserManager<Usuario> userManager, ITokenService tokenService)
+        private readonly SignInManager<Usuario> _signInManager;
+
+        public ContaController(UserManager<Usuario> userManager, ITokenService tokenService, SignInManager<Usuario> signInManager)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _signInManager = signInManager;
         }
 
         [HttpPost("cadastro")]
@@ -87,6 +90,15 @@ namespace api.Controllers
             {
                 return Unauthorized("Usuário não encontrado.");
             }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(usuario, loginDto.Senha, false);
+
+            if (!result.Succeeded)
+            {
+                return Unauthorized("Nome de usuário ou senha inválidos.");
+            }
+
+            return Ok(new NovoUsuarioDto { UserName = usuario.UserName, Email = usuario.Email, Token = _tokenService.CreateToken(usuario) });
         }
     }
 }
