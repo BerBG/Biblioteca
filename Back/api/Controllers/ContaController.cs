@@ -56,7 +56,7 @@ namespace api.Controllers
                             {
                                 UserName = usuario.UserName,
                                 Email = usuario.Email,
-                                Token = _tokenService.CreateToken(usuario)
+                                Token = await _tokenService.CreateToken(usuario)
                             }
                         );
                     }
