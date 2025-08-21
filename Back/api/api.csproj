@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnablePackageVulnerabilityCheck>false</EnablePackageVulnerabilityCheck>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <UserSecretsId>d0410d21-1f80-485f-ba55-64134fc73ec5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -98,7 +98,7 @@ namespace api.Controllers
                 return Unauthorized("Nome de usuário ou senha inválidos.");
             }
 
-            return Ok(new NovoUsuarioDto { UserName = usuario.UserName, Email = usuario.Email, Token = _tokenService.CreateToken(usuario) });
+            return Ok(new NovoUsuarioDto { UserName = usuario.UserName, Email = usuario.Email, Token = await _tokenService.CreateToken(usuario) });
         }
     }
 }
