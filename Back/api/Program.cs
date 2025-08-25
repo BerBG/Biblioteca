@@ -98,7 +98,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<IComentarioRepository, ComentarioRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<api.Interfaces.ITokenService, api.Service.TokenService>();
+builder.Services.AddScoped<IColecaoRepository, ColecaoRepository>();
 
 var app = builder.Build();
 
