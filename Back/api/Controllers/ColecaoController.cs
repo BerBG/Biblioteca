@@ -47,5 +47,49 @@ namespace api.Controllers
 
             return Ok(usuarioColecao);
         }
+
+        [HttpPost("livro/{colecaoId}/{isbn}")]
+        [Authorize]
+        public async Task<IActionResult> AddBookToCollection(int colecaoId, string isbn)
+        {
+            var username = User.GetUsername();
+            if (string.IsNullOrEmpty(username))
+            {
+                return Unauthorized();
+            }
+
+            var usuario = await _userManager.FindByNameAsync(username);
+            if (usuario == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            var livro = await _livroRepo.GetByIsbnAsync(isbn);
+            if (livro == null)
+            {
+                return NotFound("Livro não encontrado.");
+            }
+
+            var colecao = await _colecaoRepo.GetByIdAsync(colecaoId);
+            if (colecao == null || colecao.UsuarioId != usuario.Id)
+            {
+                return NotFound("Coleção não encontrada ou não pertence ao usuário.");
+            }
+
+            var colecaoLivro = new ColecaoLivro
+            {
+                ColecaoId = colecao.Id,
+                LivroId = livro.Id
+            };
+
+            var resultado = await _colecaoRepo.CreateAsync(colecaoLivro);
+
+            if (!resultado)
+            {
+                return StatusCode(500, "Erro ao adicionar livro à coleção.");
+            }
+
+            return Ok("Livro adicionado à coleção.");
+        }
     }
 }

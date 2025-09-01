@@ -12,6 +12,7 @@ namespace api.Interfaces
     {
         Task<List<Livro>> GetAllAsync(QueryObject query);
         Task<Livro?> GetByIdAsync(int id);
+        Task<Livro?> GetByIsbnAsync(string isbn);
         Task<Livro> CreateAsync(Livro livroModel);
         Task<Livro?> UpdateAsync(int id, UpdateLivroRequestDto livroDto);
         Task<Livro?> DeleteAsync(int id);

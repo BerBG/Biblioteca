@@ -39,17 +39,17 @@ namespace api.Repository
                 .Include(l => l.Comentarios)
                 .AsQueryable();
 
-            if(!string.IsNullOrWhiteSpace(query.Titulo))
+            if (!string.IsNullOrWhiteSpace(query.Titulo))
             {
                 livros = livros.Where(l => l.Titulo.Contains(query.Titulo));
             }
 
-            if(query.AutorId.HasValue)
+            if (query.AutorId.HasValue)
             {
                 livros = livros.Where(l => l.AutorId == query.AutorId.Value);
             }
 
-            if(query.GeneroId.HasValue)
+            if (query.GeneroId.HasValue)
             {
                 livros = livros.Where(l => l.GeneroId == query.GeneroId.Value);
             }
@@ -119,6 +119,14 @@ namespace api.Repository
         public Task<bool> LivroExists(int id)
         {
             return _context.Livros.AnyAsync(l => l.Id == id);
+        }
+
+        public async Task<Livro?> GetByIsbnAsync(string isbn)
+        {
+            return await _context.Livros
+                .Include(l => l.Autor)
+                .Include(l => l.Genero)
+                .FirstOrDefaultAsync(l => l.ISBN == isbn);
         }
     }
 }

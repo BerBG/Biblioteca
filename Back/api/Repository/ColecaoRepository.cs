@@ -14,6 +14,13 @@ namespace api.Repository
             _context = context;
         }
 
+        public async Task<Colecao?> GetByIdAsync(int colecaoId)
+        {
+            return await _context.Colecoes
+                .Include(c => c.ColecoesLivros)
+                .FirstOrDefaultAsync(c => c.Id == colecaoId);
+        }
+
         public async Task<List<Livro>> GetUserCollection(Usuario usuario)
         {
             return await _context.Colecoes
@@ -22,6 +29,13 @@ namespace api.Repository
                 .Distinct()                                                  // remove duplicados
                 .AsNoTracking()                                              // leitura
                 .ToListAsync();                                              // executa
+        }
+        
+        public async Task<bool> CreateAsync(ColecaoLivro colecaoLivro)
+        {
+            await _context.ColecoesLivros.AddAsync(colecaoLivro);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
