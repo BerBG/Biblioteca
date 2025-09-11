@@ -6,6 +6,7 @@ namespace api.Interfaces
     {
         Task<List<Livro>> GetUserCollection(Usuario usuario);
         Task<Colecao?> GetByIdAsync(int colecaoId);
-        Task<bool> CreateAsync(ColecaoLivro colecaoLivro);
+        Task<Colecao> CreateAsync(ColecaoLivro colecaoLivro);
+        Task<Colecao> DeleteAsync(Colecao colecao);
     }
 }

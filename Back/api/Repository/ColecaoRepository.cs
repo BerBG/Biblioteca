@@ -31,11 +31,18 @@ namespace api.Repository
                 .ToListAsync();                                              // executa
         }
         
-        public async Task<bool> CreateAsync(ColecaoLivro colecaoLivro)
+        public async Task<Colecao> CreateAsync(ColecaoLivro colecaoLivro)
         {
             await _context.ColecoesLivros.AddAsync(colecaoLivro);
             await _context.SaveChangesAsync();
-            return true;
+            return colecaoLivro.Colecao;
+        }
+
+        public async Task<Colecao> DeleteAsync(Colecao colecao)
+        {
+            _context.Colecoes.Remove(colecao);
+            await _context.SaveChangesAsync();
+            return colecao;
         }
     }
 }

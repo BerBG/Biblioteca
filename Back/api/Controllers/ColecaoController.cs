@@ -84,12 +84,42 @@ namespace api.Controllers
 
             var resultado = await _colecaoRepo.CreateAsync(colecaoLivro);
 
-            if (!resultado)
+            if (resultado == null)
             {
                 return StatusCode(500, "Erro ao adicionar livro à coleção.");
             }
 
             return Ok("Livro adicionado à coleção.");
+        }
+
+        [HttpDelete("{colecaoId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteColecao(int colecaoId)
+        {
+            var username = User.GetUsername();
+
+            var usuario = await _userManager.FindByNameAsync(username);
+
+            if (usuario == null)
+            {
+                return NotFound("Usuário não encontrado");
+            }
+
+            var colecao = await _colecaoRepo.GetByIdAsync(colecaoId);
+
+            if (colecao == null || colecao.UsuarioId != usuario.Id)
+            {
+                return NotFound("Coleção não encontrada ou não pertence ao usuário.");
+            }
+
+            var resultado = await _colecaoRepo.DeleteAsync(colecao);
+
+            if (resultado == null)
+            {
+                return StatusCode(500, "Erro ao deletar a coleção.");
+            }
+
+            return NoContent();
         }
     }
 }
