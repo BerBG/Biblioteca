@@ -37,6 +37,7 @@ namespace api.Repository
                 .Include(l => l.Autor)
                 .Include(l => l.Genero)
                 .Include(l => l.Comentarios)
+                .ThenInclude(c => c.Usuario)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.Titulo))

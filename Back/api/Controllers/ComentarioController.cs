@@ -16,10 +16,12 @@ namespace api.Controllers
     {
         private readonly IComentarioRepository _comentarioRepo;
         private readonly ILivroRepository _livroRepo;
-        public ComentarioController(IComentarioRepository comentarioRepo, ILivroRepository livroRepo)
+        private readonly UserManager<Usuario> _userManager;
+        public ComentarioController(IComentarioRepository comentarioRepo, ILivroRepository livroRepo, UserManager<Usuario> userManager)
         {
             _comentarioRepo = comentarioRepo;
             _livroRepo = livroRepo;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -70,7 +72,11 @@ namespace api.Controllers
                 return BadRequest("Livro não encontrado.");
             }
 
+            var username = User.GetUsername();
+            var usuario = await _userManager.FindByNameAsync(username);
+
             var comentarioModel = comentarioDto.ToComentarioFromCreate(livroId);
+            comentarioModel.UsuarioId = usuario.Id;
             await _comentarioRepo.CreateAsync(comentarioModel);
 
             return CreatedAtAction(nameof(GetById), new { id = comentarioModel.Id }, comentarioModel.ToComentarioDto());

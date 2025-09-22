@@ -33,9 +33,9 @@ namespace api.Controllers
             
             var livros = await _livroRepo.GetAllAsync(query);
 
-            var livrosDto = livros.Select(l => l.ToLivroDto());
+            var livroDto = livros.Select(l => l.ToLivroDto()).ToList();
 
-            return Ok(livrosDto);
+            return Ok(livroDto);
         }
 
         [HttpGet("{id:int}")]
