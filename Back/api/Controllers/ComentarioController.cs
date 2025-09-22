@@ -7,6 +7,8 @@ using api.Dtos.Comentario;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using api.Models;
 
 namespace api.Controllers
 {
