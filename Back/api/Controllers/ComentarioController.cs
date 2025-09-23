@@ -9,6 +9,7 @@ using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using api.Models;
+using api.Extensions;
 
 namespace api.Controllers
 {
