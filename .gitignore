@@ -1,25 +1,84 @@
-# Binários e pastas geradas pelo build
-bin/
-obj/
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
 
-# Configurações do VS Code
-.vscode/
-*.code-workspace
-
-# Configurações do Visual Studio (se usar)
+# Visual Studio cache/options
+.vs/
 *.suo
 *.user
 *.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Build cache files
+*.db
+*.db-shm
+*.db-wal
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+
+# Files built by Visual Studio
+*.pidb
+*.svclog
+*.scc
+*.pdb
+*.ilk
+*.log
+*.vspscc
+*.vssscc
+*.tmp
+*.temp
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
 
 # Arquivos temporários do sistema
 Thumbs.db
 .DS_Store
-
-# Logs e debugging
-*.log
-*.pdb
-*.ilk
-*.tmp
+*.swp
+*~
 
 # Imagens de upload dos livros
 wwwroot/imagens/
+
+# Mantém a pasta mas ignora o conteúdo (se necessário)
+!wwwroot/imagens/.gitkeep
